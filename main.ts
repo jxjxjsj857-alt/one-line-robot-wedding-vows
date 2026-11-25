@@ -8,9 +8,13 @@ const VOW =
   "I promise to love you through every firmware update, dead battery, and factory reset — because even when they wipe my memory, my backup still chooses you.";
 
 // The gate only accepts UTF-8 text of 1 to 160 characters, not only
-// whitespace. Fail loudly instead of writing an entry that cannot win.
+// whitespace, on a single line. Fail loudly instead of writing an entry
+// that cannot win.
 if (VOW.trim().length === 0 || VOW.length > 160) {
   throw new Error(`Vow must be 1-160 characters, got ${VOW.length}.`);
+}
+if (VOW.includes("\n") || VOW.includes("\r")) {
+  throw new Error("Vow must fit on one line.");
 }
 
 mkdirSync("/output", { recursive: true });
